@@ -1,26 +1,29 @@
 :root{
   --kw-red: #C40000;
-  --kw-gray-100: #f5f5f5;
-  --kw-gray-200: #e8e8e8;
-  --kw-gray-300: #d9d9d9;
-  --kw-gray-700: #333333;
-  --kw-black: #111111;
-  --tile-bg: #efefef;
+  --bg-gray: #1f1f1f;
+  --panel-gray: #2a2a2a;
+  --tile-bg: #333333;
+  --tile-border: #444444;
+  --text: #ffffff;
+  --muted: #cfcfcf;
+  --hairline: #3a3a3a;
 }
 
+/* Reset / base */
 *{box-sizing:border-box}
-
 html,body{
   margin:0;
   padding:0;
-  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  color: white;
+  height:100%;
   background: var(--bg-gray);
+  color: var(--text);
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
+#root, body > div{min-height:100%}
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-
+/* Header */
 .site-header{
   position: sticky;
   top: 0;
@@ -28,7 +31,6 @@ html,body{
   background: var(--bg-gray);
   border-bottom: 4px solid var(--kw-red);
 }
-
 .header-inner{
   max-width: 1080px;
   margin: 0 auto;
@@ -38,32 +40,34 @@ html,body{
   gap: 1rem;
   padding: .75rem 1rem;
 }
-
 .logo{height:48px; width:auto; display:block}
 .tagline{height:38px; width:auto; display:block; opacity:.9}
 
+/* Content */
 .container{
   max-width: 1080px;
   margin: 0 auto;
   padding: 1rem;
+  background: transparent;
 }
 
 .tagline-text{
   text-align:center;
   font-weight:600;
-  color: var(--kw-gray-700);
+  color: var(--muted);
   margin: .25rem auto 1rem;
 }
 
 .section-title{
   font-size: 1.1rem;
   font-weight:700;
-  color: white;
+  color: var(--text);
   margin: 1.25rem 0 .75rem;
   padding-left: .25rem;
   border-left: 6px solid var(--kw-red);
 }
 
+/* Grid */
 .grid{
   display:grid;
   grid-template-columns: repeat(2, 1fr);
@@ -86,23 +90,23 @@ html,body{
   text-align:center;
   text-decoration:none;
   background: var(--tile-bg);
-  color: white;
+  color: var(--text);
   border: 1px solid var(--tile-border);
   border-radius: 14px;
   min-height: 64px;
   padding: .9rem .75rem;
   font-weight:600;
   transition: all .18s ease;
-  box-shadow: 0 1px 0 rgba(0,0,0,0.03);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.2);
 }
 
 .tile:hover, .tile:focus{
   outline: none;
-  background: var(--bg-gray);
+  background: var(--panel-gray);
   color: var(--kw-red);
   border-color: var(--kw-red);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28);
 }
 
 .tile:active{
@@ -112,11 +116,12 @@ html,body{
   border-color: var(--kw-red);
 }
 
+/* Footer */
 .site-footer{
-  border-top: 1px solid var(--kw-gray-200);
+  border-top: 1px solid var(--hairline);
   margin-top: 2rem;
   padding: 1rem;
   text-align:center;
-  color: #666;
+  color: var(--muted);
   font-size: .9rem;
 }
