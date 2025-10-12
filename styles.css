@@ -36,19 +36,34 @@ html,body{
   margin: 0 auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   gap: 1rem;
   padding: .75rem 1rem;
 }
-.logo{height:48px; width:auto; display:block}
-.tagline{height:38px; width:auto; display:block; opacity:.9}
+.header-brand{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.35rem;
+}
+
+.logo{ height:72px; width:auto; display:block }
+.tagline{ height:18px; width:auto; display:block; opacity:.9 }
+
+@media (min-width: 640px){
+  .logo{ height:88px }
+  .tagline{ height:22px }
+}
+@media (min-width: 960px){
+  .logo{ height:104px }
+  .tagline{ height:26px }
+}
 
 /* Content */
 .container{
   max-width: 1080px;
   margin: 0 auto;
   padding: 1rem;
-  background: transparent;
 }
 
 .tagline-text{
@@ -73,16 +88,10 @@ html,body{
   grid-template-columns: repeat(2, 1fr);
   gap: .75rem;
 }
+@media (min-width: 640px){ .grid{ grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 960px){ .grid{ grid-template-columns: repeat(4, 1fr); } }
 
-@media (min-width: 640px){
-  .grid{ grid-template-columns: repeat(3, 1fr); }
-  .logo{height:56px}
-  .tagline{height:42px}
-}
-@media (min-width: 960px){
-  .grid{ grid-template-columns: repeat(4, 1fr); }
-}
-
+/* Tile buttons */
 .tile{
   display:flex;
   align-items:center;
@@ -99,7 +108,6 @@ html,body{
   transition: all .18s ease;
   box-shadow: 0 1px 0 rgba(0,0,0,0.2);
 }
-
 .tile:hover, .tile:focus{
   outline: none;
   background: var(--panel-gray);
@@ -108,12 +116,57 @@ html,body{
   transform: translateY(-1px);
   box-shadow: 0 6px 16px rgba(0,0,0,0.28);
 }
-
 .tile:active{
   transform: translateY(0);
   background: var(--kw-red);
   color: white;
   border-color: var(--kw-red);
+}
+
+/* Dropdown tiles */
+.tile.dropdown{
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.tile.dropdown > summary{
+  list-style: none;
+  outline: none;
+  width: 100%;
+}
+.tile.dropdown > summary::-webkit-details-marker{ display:none; }
+.tile.dropdown[open]{
+  background: var(--panel-gray);
+  border-color: var(--kw-red);
+  color: var(--kw-red);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.28);
+}
+
+.dropdown-menu{
+  position: relative;
+  width: 100%;
+  margin-top: .75rem;
+  background: var(--tile-bg);
+  border: 1px solid var(--tile-border);
+  border-radius: 12px;
+  padding: .5rem;
+  display: grid;
+  gap: .5rem;
+}
+.dropdown-link{
+  display: block;
+  text-decoration: none;
+  color: var(--text);
+  padding: .6rem .7rem;
+  border-radius: 10px;
+  border: 1px solid var(--tile-border);
+  background: var(--panel-gray);
+  text-align: left;
+  font-weight: 600;
+}
+.dropdown-link:hover, .dropdown-link:focus{
+  border-color: var(--kw-red);
+  color: var(--kw-red);
 }
 
 /* Footer */
@@ -124,28 +177,4 @@ html,body{
   text-align:center;
   color: var(--muted);
   font-size: .9rem;
-}
-
-
-/* Header brand layout */
-.header-inner{ justify-content:center; }
-.header-brand{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:.35rem;
-}
-
-/* Default (mobile-first) sizes */
-.logo{ height:72px; }
-.tagline{ height:18px; } /* ~25% of logo height */
-
-/* Larger screens increase both but keep 25% ratio */
-@media (min-width: 640px){
-  .logo{ height:88px; }
-  .tagline{ height:22px; }
-}
-@media (min-width: 960px){
-  .logo{ height:104px; }
-  .tagline{ height:26px; }
 }

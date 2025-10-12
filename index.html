@@ -9,23 +9,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
-
   <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
   <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="manifest" href="site.webmanifest">
   <meta name="theme-color" content="#C40000">
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Explore TL">
+  <!-- Social -->
   <meta property="og:title" content="KW Explore Fourways – TL Dashboard">
   <meta property="og:description" content="Mobile-first TL dashboard for KW Explore Fourways.">
   <meta property="og:image" content="assets/android-chrome-512x512.png">
   <meta name="twitter:card" content="summary">
-
-
-  <!-- iOS Add-to-Home-Screen tweaks -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Explore TL">
-
 </head>
 <body>
   <header class="site-header">
@@ -49,20 +46,30 @@
         <a class="tile" href="https://thatrealestateguysa.github.io/learnmore/" target="_blank" rel="noopener">Refer a New Agent</a>
         <a class="tile" href="https://mapp.kwsouthafrica.co.za/Account/Login?returnUrl=%2F" target="_blank" rel="noopener">Mapp – Listing Platform</a>
         <a class="tile" href="https://authn.kw.com/as/authorize?client_id=6446ccf1-d9ef-43d3-b4a5-fedf42fbe53e&code_challenge=sgjp7lM5ZAD-2KMnd_IEj1M2p-5uptKqYmGWJBnbpk0&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fconsole.command.kw.com%2Fauth%2Fcallback&response_type=code&scope=openid+profile+email+command" target="_blank" rel="noopener">KW Command</a>
-        <a class="tile" href="https://app.thevirtualagent.co.za/user/sign-in" target="_blank" rel="noopener">The Virtual Agent</a>
-        <a class="tile" href="https://toolkit.lightstone.co.za/#/" target="_blank" rel="noopener">Lightstone</a>
-        <a class="tile" href="https://www.cmainfo.co.za/" target="_blank" rel="noopener">CMA Info – Signup</a>
         <a class="tile" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>
+        <a class="tile" href="https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" target="_blank" rel="noopener">Gemini</a>
         <a class="tile" href="https://realrecruit2.netlify.app/" target="_blank" rel="noopener">Recruit Machine</a>
         <a class="tile" href="https://coldrecruit.netlify.app/" target="_blank" rel="noopener">Cold Recruit Machine</a>
-      </div>
-    </section>
 
-    <section aria-labelledby="resources">
-      <h2 id="resources" class="section-title">Resources</h2>
-      <div class="grid">
-        <a class="tile" href="https://kellerink.com/" target="_blank" rel="noopener">Keller Ink</a>
-        <a class="tile" href="https://kwecgi.netlify.app/" target="_blank" rel="noopener">CGI Calculator</a>
+        <!-- Tools dropdown tile -->
+        <details class="tile dropdown">
+          <summary>Tools</summary>
+          <div class="dropdown-menu" role="menu" aria-label="Tools">
+            <a class="dropdown-link" href="https://app.thevirtualagent.co.za/user/sign-in" target="_blank" rel="noopener">The Virtual Agent</a>
+            <a class="dropdown-link" href="https://toolkit.lightstone.co.za/#/" target="_blank" rel="noopener">Lightstone</a>
+            <a class="dropdown-link" href="https://www.cmainfo.co.za/" target="_blank" rel="noopener">CMA Info – Signup</a>
+            <a class="dropdown-link" href="https://mapp.kwsouthafrica.co.za/Account/Login?returnUrl=%2F" target="_blank" rel="noopener">Mapp – Listing Platform</a>
+          </div>
+        </details>
+
+        <!-- Resources dropdown tile -->
+        <details class="tile dropdown">
+          <summary>Resources</summary>
+          <div class="dropdown-menu" role="menu" aria-label="Resources">
+            <a class="dropdown-link" href="https://kellerink.com/" target="_blank" rel="noopener">Keller Ink</a>
+            <a class="dropdown-link" href="https://kwecgi.netlify.app/" target="_blank" rel="noopener">CGI Calculator</a>
+          </div>
+        </details>
       </div>
     </section>
   </main>
