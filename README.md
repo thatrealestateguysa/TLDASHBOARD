@@ -1,12 +1,15 @@
-# KW Explore — TL Web App (GitHub Pages)
+# KW Explore — TL Dashboard (Static, GitHub-ready)
 
-This bundle is ready to deploy.
+**What’s inside**
+- `index.html` — Dashboard (2 cols on phones → 3 cols on tablet/desktop), labels-only clickable tiles.
+- `assets/kw-explore-logo.png` — Header logo (white on dark).
+- `icons/` — App icons (16→512).
+- `manifest.json` — PWA manifest wired to icons.
 
-## Steps
-1) Create a repo (e.g., `kw-explore-tl`), push/upload these files.
-2) In **Settings → Pages**, choose **Deploy from branch**, pick `main / root`.
-3) Open the Pages URL once published.
+**Deploy to GitHub Pages**
+1. Create repo (e.g., `kw-explore-tl`), upload these files or push via Git.
+2. Settings → Pages → Deploy from branch (`main` / root).
+3. Open the Pages URL.
 
-- Logo: `assets/kw-explore-logo.png`
-- App icons: `icons/icon-*.png`
-- Manifest: `manifest.json`
+**Edit tabs**
+Open `index.html` and modify the `<a ...>` tiles within the `<div id="tiles">` grid.
