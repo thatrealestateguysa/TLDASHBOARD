@@ -1,85 +1,318 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>KW Explore Fourways – TL Dashboard</title>
-  <meta name="description" content="Mobile-first TL dashboard for KW Explore Fourways with quick access to recruiting, listing, and productivity tools.">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>KW Explore Fourways — TL Dashboard</title>
+  <!-- PWA: manifest + icons -->
+  <meta name="theme-color" content="#2d2d2d" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" sizes="16x16" href="icons/icon-16.png" />
+  <link rel="icon" sizes="32x32" href="icons/icon-32.png" />
+  <link rel="icon" sizes="48x48" href="icons/icon-48.png" />
+  <link rel="apple-touch-icon" href="icons/icon-180.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
-  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
-  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-  <link rel="manifest" href="site.webmanifest">
-  <meta name="theme-color" content="#C40000">
-  <!-- iOS PWA -->
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Explore TL">
-  <!-- Social -->
-  <meta property="og:title" content="KW Explore Fourways – TL Dashboard">
-  <meta property="og:description" content="Mobile-first TL dashboard for KW Explore Fourways.">
-  <meta property="og:image" content="assets/android-chrome-512x512.png">
-  <meta name="twitter:card" content="summary">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root{
+      --kw-red:#D40511; /* KW Explore red */
+      --kw-dark:#333333;
+      --kw-mid:#5A5A5A;
+      --kw-light:#F5F5F5;
+    }
+    body{font-family:Inter, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"}
+    .brand-gradient{background: linear-gradient(135deg, var(--kw-red), #8b0000)}
+    .card{box-shadow: 0 10px 18px rgba(0,0,0,.06), 0 2px 4px rgba(0,0,0,.06)}
+    .btn{transition: transform .06s ease, box-shadow .2s ease}
+    .btn:active{transform: translateY(1px)}
+    .link-tile{transition: transform .08s ease, box-shadow .2s ease}
+    .link-tile:hover{transform: translateY(-2px)}
+    .kbd{border:1px solid #e2e8f0;border-bottom-width:2px;border-radius:.5rem;padding:.15rem .4rem;background:#fff}
+    .srch::-webkit-search-cancel-button{appearance:none}
+    dialog::backdrop{background:rgba(0,0,0,.45)}
+  </style>
 </head>
-<body>
-  <header class="site-header">
-    <div class="header-inner">
-      <div class="header-brand" aria-label="KW Explore branding">
-        <img src="assets/logo.png" alt="KW Explore logo" class="logo">
-        <img src="assets/tagline.png" alt="Where Entrepreneurs Thrive" class="tagline">
+<body class='bg-zinc-900 text-[15px] text-zinc-100'>
+  <!-- Top Bar -->
+  <header class='bg-zinc-900 text-white border-b-4 border-[var(--kw-red)]'>
+    <div class='mx-auto max-w-5xl px-4 py-6'>
+      <div class='flex items-start justify-between gap-3'>
+        <div class='flex-1 text-center'>
+          <img id='brandLogo' alt='KW Explore' class='mx-auto h-14 md:h-16 object-contain' src="assets/kw-explore-logo.png"/>
+          <h1 id='appTitle' class='text-2xl md:text-3xl font-extrabold tracking-tight'>KW Explore Fourways — TL Dashboard</h1>
+          <p id='brandTagline' class='mt-1 text-sm text-white/80'>The NR1 Real Estate Agent Recruiter</p>
+          <a id='subtitleLink' href='https://explore.kw.com/' target='_blank' rel='noopener' class='inline-flex items-center gap-2 mt-2 text-white/90 hover:text-white'>
+            <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='currentColor' class='w-4 h-4'><path d='M12 3c4.97 0 9 4.03 9 9s-4.03 9-9 9-9-4.03-9-9 4.03-9 9-9Zm2.25 6a.75.75 0 0 0-1.5 0v3.19l-2.03 2.03a.75.75 0 1 0 1.06 1.06l2.22-2.22c.14-.14.25-.34.25-.56V9Z'/></svg>
+            <span id='subtitleText' class='underline underline-offset-2'>explore.kw.com</span>
+          </a>
+        </div>
+        <div class='flex items-center gap-2'>
+          <button id='editBtn' class='btn inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 hover:bg-white/20'>
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' fill='none' viewBox='0 0 24 24' stroke='currentColor'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='1.8' d='M16.862 4.487a2.1 2.1 0 1 1 2.97 2.97L8.62 18.67l-4.24.707.707-4.24 11.776-10.65Z'/></svg>
+            <span class='hidden sm:inline'>Edit</span>
+          </button>
+          <button id='exportBtn' class='btn inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 hover:bg-white/20' title='Export config JSON'>
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' viewBox='0 0 24 24' fill='currentColor'><path d='M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 0 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1Z'/><path d='M4 15a1 1 0 0 1 1 1v2h14v-2a1 1 0 1 1 2 0v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a1 1 0 0 1 1-1Z'/></svg>
+            <span class='hidden sm:inline'>Export</span>
+          </button>
+          <label class='btn inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-2 hover:bg-white/20 cursor-pointer' title='Import config JSON'>
+            <input id='importInput' type='file' accept='application/json' class='hidden' />
+            <svg xmlns='http://www.w3.org/2000/svg' class='w-5 h-5' viewBox='0 0 24 24' fill='currentColor'><path d='M12 21a1 1 0 0 1-1-1v-8.586L8.707 13.707a1 1 0 1 1-1.414-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 1 1-1.414 1.414L13 11.414V20a1 1 0 0 1-1 1Z'/><path d='M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3a1 1 0 1 1-2 0V6H6v3a1 1 0 0 1-2 0V6Z'/></svg>
+            <span class='hidden sm:inline'>Import</span>
+          </label>
+        </div>
       </div>
     </div>
   </header>
 
-  <main class="container">
-    <h1 class="sr-only">KW Explore Fourways – TL Dashboard</h1>
-    <p class="tagline-text">The NR1 Real Estate Agent Recruiter</p>
-
-    <section aria-labelledby="quick-links">
-      <h2 id="quick-links" class="section-title">Quick Links</h2>
-      <div class="grid">
-        <a class="tile" href="https://calendar.google.com/" target="_blank" rel="noopener">My Calendar</a>
-        <a class="tile" href="https://mail.google.com/" target="_blank" rel="noopener">My Mail</a>
-        <a class="tile" href="https://thatrealestateguysa.github.io/learnmore/" target="_blank" rel="noopener">Refer a New Agent</a>
-        <a class="tile" href="https://mapp.kwsouthafrica.co.za/Account/Login?returnUrl=%2F" target="_blank" rel="noopener">Mapp – Listing Platform</a>
-        <a class="tile" href="https://authn.kw.com/as/authorize?client_id=6446ccf1-d9ef-43d3-b4a5-fedf42fbe53e&code_challenge=sgjp7lM5ZAD-2KMnd_IEj1M2p-5uptKqYmGWJBnbpk0&code_challenge_method=S256&redirect_uri=https%3A%2F%2Fconsole.command.kw.com%2Fauth%2Fcallback&response_type=code&scope=openid+profile+email+command" target="_blank" rel="noopener">KW Command</a>
-        <a class="tile" href="https://chatgpt.com/" target="_blank" rel="noopener">ChatGPT</a>
-        <a class="tile" href="https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" target="_blank" rel="noopener">Gemini</a>
-        <a class="tile" href="https://realrecruit2.netlify.app/" target="_blank" rel="noopener">Recruit Machine</a>
-        <a class="tile" href="https://coldrecruit.netlify.app/" target="_blank" rel="noopener">Cold Recruit Machine</a>
-
-        <!-- Tools dropdown tile -->
-        <details class="tile dropdown">
-          <summary>Tools</summary>
-          <div class="dropdown-menu" role="menu" aria-label="Tools">
-            <a class="dropdown-link" href="https://app.thevirtualagent.co.za/user/sign-in" target="_blank" rel="noopener">The Virtual Agent</a>
-            <a class="dropdown-link" href="https://toolkit.lightstone.co.za/#/" target="_blank" rel="noopener">Lightstone</a>
-            <a class="dropdown-link" href="https://www.cmainfo.co.za/" target="_blank" rel="noopener">CMA Info – Signup</a>
-            <a class="dropdown-link" href="https://mapp.kwsouthafrica.co.za/Account/Login?returnUrl=%2F" target="_blank" rel="noopener">Mapp – Listing Platform</a>
-          </div>
-        </details>
-
-        <!-- Resources dropdown tile -->
-        <details class="tile dropdown">
-          <summary>Resources</summary>
-          <div class="dropdown-menu" role="menu" aria-label="Resources">
-            <a class="dropdown-link" href="https://kellerink.com/" target="_blank" rel="noopener">Keller Ink</a>
-            <a class="dropdown-link" href="https://kwecgi.netlify.app/" target="_blank" rel="noopener">CGI Calculator</a>
-          </div>
-        </details>
+  <!-- Search & Tiles -->
+  <main class="mx-auto max-w-5xl px-4 py-6">
+    <div class="flex items-center justify-between gap-3 mb-4">
+      <div class="relative w-full">
+        <input id="search" type="search" placeholder="Search links…" class='srch w-full rounded-2xl border border-zinc-700 bg-zinc-800 text-zinc-100 placeholder:text-zinc-400 py-3 pl-10 pr-3 focus:outline-none focus:ring-2 focus:ring-[var(--kw-red)]'/>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-400" viewBox="0 0 24 24" fill="currentColor"><path d="M10 2a8 8 0 1 1 5.293 13.707l4 4a1 1 0 0 1-1.414 1.414l-4-4A8 8 0 0 1 10 2Zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12Z"/></svg>
       </div>
+      <button id="resetBtn" class="btn whitespace-nowrap rounded-2xl border border-zinc-200 px-4 py-3 hover:bg-zinc-50">Reset</button>
+    </div>
+
+    <section>
+      <h2 class='text-sm font-semibold uppercase tracking-wider text-zinc-200 pl-2 border-l-4 border-[var(--kw-red)]'>Quick Links</h2>
+      <div id="tiles" class="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
     </section>
+
+    <section class="mt-8">
+      <details class="group card rounded-2xl border border-zinc-800 p-4 open:ring-1 open:ring-zinc-700">
+        <summary class="cursor-pointer list-none flex items-center justify-between">
+          <h3 class="font-semibold text-zinc-200">How to Edit</h3>
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-zinc-400 group-open:rotate-180 transition" viewBox="0 0 24 24" fill="currentColor"><path d="M12 15.5 6.5 10l1.4-1.4L12 12.7l4.1-4.1L17.5 10z"/></svg>
+        </summary>
+        <ol class="mt-3 space-y-2 text-zinc-300">
+          <li>1. Click <span class="kbd">Edit</span> to update the title, subtitle, and links.</li>
+          <li>2. Changes are saved to your browser (localStorage) — use <span class="kbd">Export</span> to download a JSON backup, and <span class="kbd">Import</span> to restore.</li>
+          <li>3. <span class="font-medium">Tip:</span> You can paste long OAuth/SSO URLs if required by your system. A shorter stable URL also works (e.g., Command Console).</li>
+        </ol>
+      </details>
+    </section>
+
+    <footer class="mt-10 pb-10 text-xs text-zinc-400">
+      <p>Branding: KW Explore — colors #D40511 (red) & #333333 (dark). Built mobile-first. No external tracking.</p>
+    </footer>
   </main>
 
-  <footer class="site-footer">
-    <p>&copy; <span id="year"></span> Keller Williams Explore Fourways</p>
-  </footer>
+  <!-- Editor Modal -->
+  <dialog id="editor" class="rounded-2xl max-w-2xl w-[92vw] p-0">
+    <form method="dialog" class="p-0">
+      <div class="px-5 py-4 border-b flex items-center justify-between">
+        <h3 class="text-lg font-semibold">Edit Dashboard</h3>
+        <button class="rounded-lg px-2 py-1 hover:bg-zinc-100" value="cancel" title="Close">✕</button>
+      </div>
+      <div class="p-5 space-y-5 max-h-[70vh] overflow-y-auto">
+        <div class="grid gap-3">
+          <label class="text-sm font-medium">Title
+            <input id="f_title" class="mt-1 w-full rounded-xl border border-zinc-200 p-3" />
+          </label>
+          <label class="text-sm font-medium">Subtitle Text
+            <input id="f_subtext" class="mt-1 w-full rounded-xl border border-zinc-200 p-3" />
+          </label>
+          <label class='text-sm font-medium'>Subtitle URL
+            <input id='f_suburl' class='mt-1 w-full rounded-xl border border-zinc-200 p-3' />
+          </label>
+          <label class='text-sm font-medium'>Logo URL (optional)
+            <input id='f_logo' class='mt-1 w-full rounded-xl border border-zinc-200 p-3' placeholder='assets/kw-explore-logo.png' />
+          </label>
+          <label class='text-sm font-medium'>Tagline (optional)
+            <input id='f_tag' class='mt-1 w-full rounded-xl border border-zinc-200 p-3' placeholder='The NR1 Real Estate Agent Recruiter' />
+          </label>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <h4 class="font-semibold">Quick Links</h4>
+            <button id="addLinkBtn" type="button" class="btn rounded-xl border border-zinc-200 px-3 py-2 hover:bg-zinc-50">+ Add Label</button>
+          </div>
+          <div id="linksWrap" class="mt-3 space-y-3"></div>
+        </div>
+      </div>
+      <div class="px-5 py-4 border-t flex items-center justify-between">
+        <button id="defaultsBtn" type="button" class="btn rounded-xl border border-zinc-200 px-3 py-2 hover:bg-zinc-50">Reset to Defaults</button>
+        <div class="space-x-2">
+          <button class="btn rounded-xl border border-zinc-200 px-4 py-2 hover:bg-zinc-50" value="cancel">Cancel</button>
+          <button id="saveBtn" class="btn rounded-xl bg-[var(--kw-red)] text-white px-4 py-2 hover:brightness-110" value="default">Save</button>
+        </div>
+      </div>
+    </form>
+  </dialog>
 
   <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
+    // ===== CONFIG (defaults) =====
+    const DEFAULTS = {
+      title: "KW Explore Fourways — TL Dashboard",
+      subtitle: { text: "explore.kw.com", url: "https://explore.kw.com/" },
+      brand: { logoUrl: "assets/kw-explore-logo.png", tagline: "The NR1 Real Estate Agent Recruiter" },
+      links: [
+        { label: "MY CALENDAR", url: "https://calendar.google.com/" },
+        { label: "MY MAIL", url: "https://mail.google.com/" },
+        { label: "MAPP DASHBOARD", url: "https://mapp.kwsouthafrica.co.za/Account/Login?returnUrl=%2F" },
+        { label: "COMMAND DASHBOARD", url: "https://console.command.kw.com/" },
+        { label: "CHATGPT", url: "https://chatgpt.com/" },
+        { label: "GEMINI", url: "https://gemini.google.com/app?utm_source=app_launcher&utm_medium=owned&utm_campaign=base_all" },
+        { label: "RECRUIT MACHINE", url: "https://kwerecruitoct.netlify.app/" },
+        { label: "COLD RECRUIT MACHINE", url: "https://coldrecruit.netlify.app/" },
+        { label: "THE VA", url: "https://app.thevirtualagent.co.za/user/sign-in" },
+        { label: "LIGHTSTONE", url: "https://toolkit.lightstone.co.za/#/" },
+        { label: "CMA INFO (SIGNUP)", url: "https://www.cmainfo.co.za/" },
+        { label: "KELLER INK", url: "https://kellerink.com/" },
+        { label: "CGI CALCULATOR", url: "https://www.google.com/search?q=https://kwecgi.netlify.app/" }
+      ]
+    };
+
+    const STORAGE_KEY = 'kwExploreTLConfigV1';
+
+    function loadConfig(){
+      try{
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if(!raw) return structuredClone(DEFAULTS);
+        const cfg = JSON.parse(raw);
+        if(!cfg.title || !cfg.subtitle || !Array.isArray(cfg.links)) return structuredClone(DEFAULTS);
+        return cfg;
+      }catch(e){
+        return structuredClone(DEFAULTS);
+      }
+    }
+    function saveConfig(cfg){ localStorage.setItem(STORAGE_KEY, JSON.stringify(cfg)); }
+
+    let CONFIG = loadConfig();
+
+    // ===== RENDER =====
+    const tilesEl = document.getElementById('tiles');
+    const titleEl = document.getElementById('appTitle');
+    const subtitleEl = document.getElementById('subtitleText');
+    const subtitleA = document.getElementById('subtitleLink');
+    const brandLogo = document.getElementById('brandLogo');
+    const brandTagline = document.getElementById('brandTagline');
+
+    function render(){
+      titleEl.textContent = CONFIG.title;
+      subtitleEl.textContent = CONFIG.subtitle.text;
+      subtitleA.href = CONFIG.subtitle.url;
+
+      // Brand visuals (logo + tagline)
+      if (CONFIG.brand && CONFIG.brand.logoUrl) { brandLogo.src = CONFIG.brand.logoUrl; brandLogo.classList.remove('hidden'); } else { brandLogo.classList.add('hidden'); }
+      if (CONFIG.brand && CONFIG.brand.tagline) { brandTagline.textContent = CONFIG.brand.tagline; brandTagline.classList.remove('hidden'); } else { brandTagline.classList.add('hidden'); }
+
+      const q = (document.getElementById('search').value || '').toLowerCase().trim();
+      tilesEl.innerHTML = '';
+      CONFIG.links
+        .filter(l => !q || (l.label||'').toLowerCase().includes(q) || (l.url||'').toLowerCase().includes(q))
+        .forEach(l => {
+          const a = document.createElement('a');
+          a.href = l.url; a.target = '_blank'; a.rel = 'noopener';
+          a.className = 'link-tile card rounded-2xl border border-zinc-800 p-5 bg-zinc-800 flex items-center justify-center hover:shadow-md text-white';
+          a.innerHTML = '<div class="w-full text-center font-extrabold tracking-wide uppercase">' + (l.label||'').toUpperCase() + '</div>';
+          tilesEl.appendChild(a);
+        });
+    }
+
+    // ===== Editor =====
+    const editor = document.getElementById('editor');
+    const f_title = document.getElementById('f_title');
+    const f_subtext = document.getElementById('f_subtext');
+    const f_suburl = document.getElementById('f_suburl');
+    const f_logo = document.getElementById('f_logo');
+    const f_tag = document.getElementById('f_tag');
+    const linksWrap = document.getElementById('linksWrap');
+
+    function ensureUrl(u){
+      if(!u) return '';
+      u = (u+"").trim();
+      if(!u) return '';
+      if(!/^https?:\/\//i.test(u)) u = 'https://' + u;
+      return u;
+    }
+
+    function linkRow(ix, link){
+      const row = document.createElement('div');
+      row.className = 'grid grid-cols-12 gap-2 items-end';
+      row.innerHTML = `
+        <label class="col-span-5 text-sm">Label
+          <input class="mt-1 w-full rounded-xl border border-zinc-200 p-2.5" value="${(link.label||'').toUpperCase()}" data-field="label" />
+        </label>
+        <label class="col-span-6 text-sm">URL
+          <input class="mt-1 w-full rounded-xl border border-zinc-200 p-2.5" value="${link.url||''}" data-field="url" />
+        </label>
+        <div class="col-span-1 flex justify-end">
+          <button type="button" class="rounded-lg px-2 py-2 hover:bg-zinc-100" title="Remove" data-remove>🗑️</button>
+        </div>`;
+      row.querySelector('[data-remove]').onclick = () => { row.remove(); };
+      return row;
+    }
+
+    function openEditor(){
+      f_title.value = CONFIG.title;
+      f_subtext.value = CONFIG.subtitle.text;
+      f_suburl.value = CONFIG.subtitle.url;
+      f_logo.value = (CONFIG.brand && CONFIG.brand.logoUrl) ? CONFIG.brand.logoUrl : 'assets/kw-explore-logo.png';
+      f_tag.value = (CONFIG.brand && CONFIG.brand.tagline) ? CONFIG.brand.tagline : 'The NR1 Real Estate Agent Recruiter';
+      linksWrap.innerHTML = '';
+      CONFIG.links.forEach((l, i) => linksWrap.appendChild(linkRow(i, l)));
+      editor.showModal();
+    }
+
+    function collectEditor(){
+      const rows = Array.from(linksWrap.children);
+      const seen = new Set();
+      const links = [];
+      for(const row of rows){
+        const get = k => row.querySelector(\`[data-field="\${k}"]\`).value.trim();
+        const label = (get('label') || '').toUpperCase();
+        const url = ensureUrl(get('url'));
+        if(!label || !url || seen.has(label)) continue;
+        seen.add(label);
+        links.push({ label, url });
+      }
+      return {
+        title: f_title.value.trim() || DEFAULTS.title,
+        subtitle: { text: f_subtext.value.trim() || DEFAULTS.subtitle.text, url: f_suburl.value.trim() || DEFAULTS.subtitle.url },
+        brand: { logoUrl: f_logo.value.trim(), tagline: f_tag.value.trim() },
+        links
+      };
+    }
+
+    // ===== Export / Import =====
+    function download(filename, text){
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([text], {type:'application/json'}));
+      a.download = filename; a.click();
+      setTimeout(() => URL.revokeObjectURL(a.href), 500);
+    }
+
+    document.getElementById('exportBtn').onclick = () => download('kw-explore-tl-config.json', JSON.stringify(CONFIG, null, 2));
+    document.getElementById('importInput').onchange = (e) => {
+      const file = e.target.files?.[0]; if(!file) return;
+      const fr = new FileReader();
+      fr.onload = () => { try{ CONFIG = JSON.parse(fr.result); saveConfig(CONFIG); render(); } catch(err){ alert('Invalid JSON'); } };
+      fr.readAsText(file);
+      e.target.value = '';
+    };
+
+    // ===== Wire up =====
+    document.getElementById('editBtn').onclick = openEditor;
+    document.getElementById('addLinkBtn').onclick = () => linksWrap.appendChild(linkRow(-1, {label:'', url:''}));
+    document.getElementById('defaultsBtn').onclick = () => { CONFIG = structuredClone(DEFAULTS); saveConfig(CONFIG); render(); };
+    document.getElementById('saveBtn').addEventListener('click', (e) => {
+      e.preventDefault();
+      CONFIG = collectEditor();
+      saveConfig(CONFIG);
+      render();
+      editor.close();
+    });
+    document.getElementById('resetBtn').onclick = () => { CONFIG = structuredClone(DEFAULTS); saveConfig(CONFIG); render(); document.getElementById('search').value=''; };
+    document.getElementById('search').addEventListener('input', render);
+
+    // ===== Init =====
+    render();
   </script>
 </body>
 </html>
